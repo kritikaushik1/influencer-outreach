@@ -1,0 +1,480 @@
+EDXSO AI INFLUENCER OUTREACH
+PROJECT DOCUMENTATION
+
+==================================================
+1. SAMPLE PERSONALIZED OUTREACH MESSAGES
+==================================================
+
+Sample Email:
+
+Subject: Collaboration Opportunity for [Channel Name]
+
+Hi [Creator Name],
+
+I came across your YouTube channel and really liked your content around [Niche/Sub-niche].
+
+Your content seems relevant to the audience we are looking to connect with, and I would love to explore a potential collaboration with you.
+
+If you are open to it, I can share more details about the campaign, deliverables, and collaboration opportunity.
+
+Looking forward to hearing from you.
+
+Best regards,
+EDXSO Outreach Team
+
+
+Sample Instagram DM:
+
+Hi [Creator Name]!
+
+I came across your content and really liked your work in the [Niche] space.
+
+We are exploring creator collaborations and thought your audience could be a good fit.
+
+Would you be open to discussing a potential collaboration?
+
+Thanks!
+
+
+Note:
+The actual project generates personalized email subjects, email bodies,
+and Instagram DMs using Gemini based on each creator's information.
+
+
+==================================================
+2. AUTOMATION WORKFLOW
+==================================================
+
+The project follows this workflow:
+
+Step 1:
+YouTube Data API is used to discover YouTube channels.
+
+Step 2:
+Channels are filtered based on the required subscriber range.
+
+Current project target:
+5,000 - 100,000 subscribers.
+
+Step 3:
+Creator/channel information is passed to Gemini AI.
+
+Step 4:
+Gemini classifies creators based on:
+- Niche
+- Sub-niche
+- Relevance
+- Brand fit
+- PASS / FAIL decision
+
+Step 5:
+Qualified creators are filtered using:
+- PASS decision
+- Relevance score >= 70
+- Brand fit score >= 60
+
+Step 6:
+Public email enrichment is performed.
+
+The project checks publicly available sources such as:
+- YouTube channel information
+- Channel descriptions
+- Public external links
+- Public websites
+- Contact/About/Business/Collaboration pages
+
+The project does NOT guess email addresses.
+
+Step 7:
+Gemini generates personalized outreach content:
+- Email subject
+- Personalized email
+- Instagram DM
+
+Step 8:
+Data is stored in SQLite database for outreach tracking.
+
+Step 9:
+The Streamlit dashboard displays:
+- Qualified creators
+- Public emails
+- Creator information
+- Personalized email
+- Instagram DM
+- Outreach status
+
+Step 10:
+After user confirmation, the Gmail API can send an individual
+personalized email.
+
+Step 11:
+The database records outreach status such as:
+- Generated
+- Sent
+- Failed
+
+Duplicate protection is used to avoid sending the same outreach
+again to an already-sent email address.
+
+
+==================================================
+3. CURRENT PROJECT OUTPUT
+==================================================
+
+Creators discovered:
+114
+
+Qualified creators:
+88
+
+Public emails currently found:
+36
+
+The project generates personalized outreach for all qualified
+creators, while actual email sending is performed only for creators
+with an available public email address and after user confirmation.
+
+
+==================================================
+4. SETUP INSTRUCTIONS
+==================================================
+
+Prerequisites:
+
+- Python 3
+- VS Code
+- Google Cloud account
+- YouTube Data API access
+- Google AI Studio / Gemini API key
+- Gmail API access
+
+
+STEP 1 - Open the project
+
+Open the following project folder in VS Code:
+
+EDXSO-Influencer-Outreach
+
+
+STEP 2 - Activate virtual environment
+
+Open VS Code Terminal and run:
+
+.\venv\Scripts\Activate.ps1
+
+
+STEP 3 - Install dependencies
+
+Run:
+
+pip install -r requirements.txt
+
+
+STEP 4 - Configure environment variables
+
+Create a .env file in the project root.
+
+Add:
+
+YOUTUBE_API_KEY=YOUR_YOUTUBE_API_KEY
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+
+
+STEP 5 - Google credentials
+
+Place the Google OAuth credentials file in the project root:
+
+credentials.json
+
+The Gmail OAuth flow creates:
+
+token.json
+
+Do NOT upload either file to GitHub.
+
+
+STEP 6 - Run YouTube discovery
+
+Run:
+
+python discovery\youtube_discovery.py
+
+This creates:
+
+youtube_channels.csv
+
+
+STEP 7 - Run AI classification
+
+Run:
+
+python ai\classifier.py
+
+This creates:
+
+classified_influencers.csv
+
+
+STEP 8 - Filter qualified influencers
+
+Run:
+
+python filtering\filter_influencers.py
+
+This creates:
+
+qualified_influencers.csv
+
+
+STEP 9 - Find public emails
+
+Run:
+
+python enrichment\email_finder.py
+
+This creates:
+
+enriched_influencers.csv
+
+
+STEP 10 - Generate personalized outreach
+
+Run:
+
+python ai\personalization.py
+
+This creates:
+
+personalized_influencers.csv
+
+
+STEP 11 - Initialize database
+
+Run:
+
+python database\db.py
+
+This creates:
+
+outreach.db
+
+
+STEP 12 - Run the Streamlit dashboard
+
+Run:
+
+streamlit run app.py
+
+The dashboard normally opens at:
+
+http://localhost:8501
+
+
+==================================================
+5. GMAIL SETUP
+==================================================
+
+Gmail API must be enabled in Google Cloud.
+
+Required OAuth scope:
+
+https://www.googleapis.com/auth/gmail.send
+
+The first Gmail operation may open a Google OAuth login page.
+
+After successful authentication, token.json is created locally.
+
+The dashboard uses Gmail API to send confirmed individual outreach
+emails.
+
+
+==================================================
+6. APIS / TOOLS USED
+==================================================
+
+1. YouTube Data API v3
+Purpose:
+- Discover YouTube channels
+- Retrieve channel information
+- Retrieve subscriber information
+- Retrieve channel descriptions and related public information
+
+
+2. Google Gemini API
+Model used:
+gemini-3.5-flash-lite
+
+Purpose:
+- Creator classification
+- Niche and sub-niche identification
+- Relevance scoring
+- Brand-fit scoring
+- Personalized email generation
+- Instagram DM generation
+
+
+3. Gmail API
+Purpose:
+- Send personalized outreach emails
+- Track email sending status
+
+
+4. Google OAuth 2.0
+Purpose:
+- Authenticate Gmail API access securely
+
+
+5. SQLite
+Purpose:
+- Store outreach records
+- Track generated/sent/failed emails
+- Prevent duplicate outreach
+
+
+6. Streamlit
+Purpose:
+- Build the interactive project dashboard
+- Display creator information
+- Display personalized outreach
+- Provide email sending interface
+- Display outreach tracking
+
+
+7. Python
+Purpose:
+- Main programming language
+- API integration
+- Data processing
+- Automation workflow
+
+
+8. Pandas
+Purpose:
+- CSV processing
+- Data filtering
+- Data transformation
+
+
+9. Requests
+Purpose:
+- HTTP requests for public web pages and API interactions
+
+
+10. BeautifulSoup
+Purpose:
+- Parse public HTML pages
+- Extract publicly visible contact information
+
+
+11. python-dotenv
+Purpose:
+- Load API keys and environment variables from .env
+
+
+12. VS Code
+Purpose:
+- Project development
+- Code editing
+- Running the project
+
+
+13. Git / GitHub
+Purpose:
+- Version control
+- Project backup
+- Source code management
+
+
+==================================================
+7. PROJECT STRUCTURE
+==================================================
+
+EDXSO-Influencer-Outreach/
+
+ai/
+    classifier.py
+    personalization.py
+    test_gemini.py
+
+database/
+    db.py
+
+discovery/
+    youtube_discovery.py
+
+enrichment/
+    email_finder.py
+
+filtering/
+    filter_influencers.py
+
+prompts/
+    __init__.py
+
+sending/
+    gmail_sender.py
+
+app.py
+requirements.txt
+.gitignore
+
+
+==================================================
+8. SECURITY NOTES
+==================================================
+
+The following files contain sensitive or local data and should NOT
+be uploaded to GitHub:
+
+.env
+credentials.json
+token.json
+venv/
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+
+These files are excluded using .gitignore.
+
+
+==================================================
+9. END-TO-END SUMMARY
+==================================================
+
+YouTube Discovery
+        |
+        v
+Creator Filtering
+        |
+        v
+Gemini AI Classification
+        |
+        v
+Qualified Influencers
+        |
+        v
+Public Email Enrichment
+        |
+        v
+Gemini Personalization
+        |
+        v
+SQLite Outreach Tracking
+        |
+        v
+Streamlit Dashboard
+        |
+        v
+User Confirmation
+        |
+        v
+Gmail API
+        |
+        v
+Personalized Outreach Sent
+
+
+==================================================
+END OF DOCUMENTATION
+==================================================
